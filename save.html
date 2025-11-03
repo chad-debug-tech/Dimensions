@@ -1,0 +1,883 @@
+<!-- 
+ CTRL + ALT + DESIGN Simulation part
+    By Atharv(github : @iblameatharv) and Poornav (github : chad-debug-tech)
+    On date : 2-11-2025
+    Copyright : OpenSource :p
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimension Simulation</title>
+    <style>
+        /*css code- pls don't you link method or seperate the css code from html cause  does'nt work*/
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+         :root {
+            --retro-green: #00ff41;
+            --retro-amber: #ffb000;
+            --retro-red: #ff0040;
+            --neon-blue: #00d4ff;
+            --neon-pink: #ff006e;
+            --neon-purple: #8000ff;
+            --dark-bg: #0a0a0f;
+            --crt-glow: rgba(0, 255, 65, 0.3);
+        }
+        /*Poornav Bhai Thanks for Font idea.*/
+        
+        @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=VT323&family=Share+Tech+Mono&display=swap");
+        body {
+            font-family: "Orbitron", monospace;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            cursor: default;
+        }
+        
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #000000 0%, #1a0033 30%, #0a0a2e 70%, #000000 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease;
+            animation: wormholeBackgroundPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes wormholeBackgroundPulse {
+            0%,
+            100% {
+                background: radial-gradient(circle at center, #000000 0%, #1a0033 30%, #0a0a2e 70%, #000000 100%);
+            }
+            50% {
+                background: radial-gradient(circle at center, #0a0a0f 0%, #2a0044 25%, #1a1a3f 60%, #0a0a1f 100%);
+            }
+        }
+        
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            filter: drop-shadow(0 0 30px var(--neon-blue));
+        }
+        
+        .loader-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            animation: wormholeSpin 2s linear infinite;
+        }
+        
+        .loader-ring:nth-child(1) {
+            border-top-color: var(--neon-blue);
+            animation: wormholeSpin 2s linear infinite;
+            box-shadow: 0 0 15px var(--neon-blue), inset 0 0 15px var(--neon-blue);
+        }
+        
+        .loader-ring:nth-child(2) {
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+            border-top-color: var(--neon-pink);
+            animation: wormholeSpin 1.5s linear infinite reverse;
+            box-shadow: 0 0 20px var(--neon-pink), inset 0 0 20px var(--neon-pink);
+        }
+        
+        .loader-ring:nth-child(3) {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            border-top-color: var(--neon-purple);
+            animation: wormholeSpin 1s linear infinite;
+            box-shadow: 0 0 25px var(--neon-purple), inset 0 0 25px var(--neon-purple);
+        }
+        
+        @keyframes wormholeSpin {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: rotate(360deg) scale(0.95);
+                opacity: 1;
+            }
+        }
+        
+        .loading-text {
+            margin-top: 40px;
+            font-size: 24px;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            animation: pulse 1.5s ease-in-out infinite;
+            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-purple);
+        }
+        /*atharv : above code was for loading.. some how loading screen still sucks!!*/
+        /*NOTE : i disown ts code chat*/
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.4;
+            }
+        }
+        
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        
+        .crt-overlay.active {
+            opacity: 1;
+        }
+        
+        .scanlines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px);
+            animation: scanline-animation 8s linear infinite;
+        }
+        
+        @keyframes scanline-animation {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(10px);
+            }
+        }
+        
+        .crt-flicker {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            animation: flicker 0.15s infinite;
+        }
+        
+        @keyframes flicker {
+            0% {
+                opacity: 0.27861;
+            }
+            5% {
+                opacity: 0.34769;
+            }
+            10% {
+                opacity: 0.23604;
+            }
+            15% {
+                opacity: 0.90626;
+            }
+            20% {
+                opacity: 0.18128;
+            }
+            25% {
+                opacity: 0.83891;
+            }
+            30% {
+                opacity: 0.65583;
+            }
+            35% {
+                opacity: 0.67807;
+            }
+            40% {
+                opacity: 0.26559;
+            }
+            45% {
+                opacity: 0.84693;
+            }
+            50% {
+                opacity: 0.96019;
+            }
+            55% {
+                opacity: 0.08594;
+            }
+            60% {
+                opacity: 0.20313;
+            }
+            65% {
+                opacity: 0.71988;
+            }
+            70% {
+                opacity: 0.53455;
+            }
+            75% {
+                opacity: 0.37288;
+            }
+            80% {
+                opacity: 0.71428;
+            }
+            85% {
+                opacity: 0.70419;
+            }
+            90% {
+                opacity: 0.7003;
+            }
+            95% {
+                opacity: 0.36108;
+            }
+            100% {
+                opacity: 0.24387;
+            }
+        }
+        /*lets not do ts agaaaainnnn pls*/
+        
+        #ui-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        .info-bar {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            pointer-events: auto;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+        
+        .dimension-label {
+            font-size: 28px;
+            font-weight: 900;
+            text-align: center;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px var(--neon-blue);
+            animation: labelFadeIn 0.8s ease-out, labelGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes labelFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes labelGlow {
+            0%,
+            100% {
+                text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue);
+            }
+            50% {
+                text-shadow: 0 0 40px var(--neon-blue), 0 0 60px var(--neon-pink);
+            }
+        }
+        /*funn partttt lol*/
+        
+        .dimension-description {
+            font-size: 14px;
+            color: #aaa;
+            text-align: center;
+            margin-top: 5px;
+            font-family: "Share Tech Mono", monospace;
+            animation: descSlideIn 1s ease-out 0.2s both;
+            position: relative;
+        }
+        
+        @keyframes descSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .dimension-description::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-pink), transparent);
+            transform: translateX(-50%);
+            animation: descUnderline 1.2s ease-out 0.8s forwards;
+        }
+        
+        @keyframes descUnderline {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+        /* Info panel styling - removed box, added text animation - goodnight kal karunga code aab */
+        
+        .info-panel {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: transparent;
+            border: none;
+            padding: 20px 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            pointer-events: auto;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            backdrop-filter: none;
+        }
+        
+        .info-panel.visible {
+            opacity: 1;
+            animation: infoPanelPulse 0.6s ease-out;
+        }
+        
+        @keyframes infoPanelPulse {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .info-panel h3 {
+            color: var(--neon-blue);
+            margin-bottom: 10px;
+            font-size: 18px;
+            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-pink);
+            animation: h3FadeIn 0.8s ease-out;
+        }
+        
+        @keyframes h3FadeIn {
+            0% {
+                opacity: 0;
+                letter-spacing: -2px;
+            }
+            100% {
+                opacity: 1;
+                letter-spacing: 1px;
+            }
+        }
+        
+        .info-panel p {
+            color: #ddd;
+            font-size: 14px;
+            line-height: 1.7;
+            font-family: "Share Tech Mono", monospace;
+            letter-spacing: 0.5px;
+            animation: textReveal 1s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+        
+        @keyframes textReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .nav-controls {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            pointer-events: auto;
+        }
+        
+        .nav-arrow {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            color: var(--neon-blue);
+            background: rgba(0, 0, 0, 0.8);
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-arrow::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(0, 212, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        /*FAT FREAKING BLOB*/
+        
+        .nav-arrow:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+        
+        .nav-arrow:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+        }
+        
+        .nav-arrow:active {
+            transform: scale(0.95);
+        }
+        
+        .nav-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .nav-arrow span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .keyboard-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #666;
+            font-family: "Share Tech Mono", monospace;
+            letter-spacing: 1px;
+        }
+        
+        .progress-container {
+            position: absolute;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            pointer-events: auto;
+        }
+        
+        .progress-dots {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .progress-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+        
+        .progress-dot::after {
+            content: attr(data-dimension);
+            position: absolute;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: #fff;
+            font-family: "Share Tech Mono", monospace;
+        }
+        
+        .progress-dot:hover::after {
+            opacity: 1;
+        }
+        
+        .progress-dot:hover {
+            transform: scale(1.2);
+        }
+        
+        .progress-dot.active {
+            background: var(--neon-blue);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+            transform: scale(1.1);
+        }
+        
+        .progress-dot.completed {
+            background: var(--retro-green);
+            border-color: var(--retro-green);
+            box-shadow: 0 0 15px var(--retro-green);
+        }
+        
+        .info-panel {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            padding: 20px 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            pointer-events: auto;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .info-panel.visible {
+            opacity: 1;
+        }
+        
+        .info-panel h3 {
+            color: var(--neon-blue);
+            margin-bottom: 10px;
+            font-size: 18px;
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+        
+        .info-panel p {
+            color: #ddd;
+            font-size: 14px;
+            line-height: 1.7;
+            font-family: "Share Tech Mono", monospace;
+            letter-spacing: 0.5px;
+        }
+        
+        #start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000428 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease;
+        }
+        
+        #start-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .title-container {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .main-title {
+            font-size: 72px;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink), var(--neon-purple), var(--neon-blue));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s linear infinite;
+            text-shadow: 0 0 80px rgba(0, 212, 255, 0.5);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+        /*idk how abv code works but it works soo who cares :3*/
+        
+        @keyframes gradient-shift {
+            to {
+                background-position: 200% center;
+            }
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #888;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+        
+        .start-button {
+            padding: 25px 60px;
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            color: white;
+            font-family: "Orbitron", monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 10px 50px rgba(0, 212, 255, 0.5);
+            transition: all 0.3s ease;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .start-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: left 0.5s ease;
+        }
+        
+        .start-button:hover::before {
+            left: 100%;
+        }
+        
+        .start-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 60px rgba(0, 212, 255, 0.8);
+        }
+        
+        .start-button span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .instructions {
+            margin-top: 60px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            font-family: "Share Tech Mono", monospace;
+        }
+        
+        .instructions p {
+            margin: 8px 0;
+        }
+        
+        .error-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.1);
+            border: 3px solid var(--retro-red);
+            padding: 30px 50px;
+            border-radius: 10px;
+            font-family: "VT323", monospace;
+            font-size: 24px;
+            color: var(--retro-red);
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 0 50px rgba(255, 0, 64, 0.5);
+            pointer-events: none;
+            max-width: 80%;
+        }
+        /*atharv bhai ye error message ka code hai, isme maine thoda glow effect dala hai red color ka, taki error zyada noticeable lage.*/
+        /*chad-debug-tech : maine isme pointer-events none dala hai taki error message ke time pe user kuch click na kar paye background me*/
+        /*Waow yrr purnav bhai thenks*/
+        
+        chad-debug-tech .error-message.visible {
+            opacity: 1;
+        }
+        
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        #joystick-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 120px;
+            height: 120px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid var(--neon-blue);
+            border-radius: 50%;
+            display: none;
+            z-index: 500;
+            pointer-events: auto;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+        
+        #joystick-container.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .joystick-inner {
+            width: 50px;
+            height: 50px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            position: absolute;
+            cursor: grab;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+        
+        .joystick-inner:active {
+            cursor: grabbing;
+        }
+        
+        .control-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #666;
+            font-family: "Share Tech Mono", monospace;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading-screen">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+        </div>
+        <div class="loading-text">Loading Dimensions...</div>
+    </div>
+
+    <div id="start-screen">
+        <div class="title-container">
+            <h1 class="main-title">Dimension</h1>
+            <p class="subtitle">Explore dimensions from 1D to the incomprehensible 5D</p>
+        </div>
+        <button class="start-button" id="start-btn"><span>Start</span></button>
+        <div class="instructions">
+            <p><br> developed by Atharv and Poornav</p>
+        </div>
+    </div>
+
+    <canvas id="particles"></canvas>
+    <div id="canvas-container"></div>
+
+    <div class="crt-overlay" id="crt-overlay">
+        <div class="scanlines"></div>
+        <div class="crt-flicker"></div>
+    </div>
+
+    <div id="ui-container">
+        <div class="info-bar">
+            <div class="dimension-label" id="dimension-label">1ST DIMENSION</div>
+            <div class="dimension-description" id="dimension-desc">The Lonely Point</div>
+        </div>
+        <div class="nav-controls"></div>
+        <div class="progress-container">
+            <div class="progress-dots" id="progress-dots">
+                <div class="progress-dot active" data-dimension="1D - Point" data-index="0"></div>
+                <div class="progress-dot" data-dimension="2D - Flatland" data-index="1"></div>
+                <div class="progress-dot" data-dimension="3D - Reality" data-index="2"></div>
+                <div class="progress-dot" data-dimension="4D - Tesseract" data-index="3"></div>
+                <div class="progress-dot" data-dimension="5D - Penteract" data-index="4"></div>
+            </div>
+        </div>
+        <div class="info-panel" id="info-panel">
+            <h3>📍 Understanding Dimensions</h3>
+            <p>Click Next to explore how dimensions build upon each other, from the simplest point to the incomprehensible fifth dimension.</p>
+        </div>
+    </div>
+
+    <div class="error-message" id="error-message"></div>
+    <div id="joystick-container">
+        <div class="joystick-inner"></div>
+    </div>
+
+    <audio id="audio-element"></audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="app.js"></script>
+</body>
+<!-- HTML MEIN TOH MAIN MASTER HUN :p -->
+
+</html>
