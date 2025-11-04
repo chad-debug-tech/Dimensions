@@ -1,96 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>World Dimensions - Explore the Universe</title>
     <style>
-        
-        
-               
-        
-        @keyframes universeZoom {
-            0% {
-                transform: scale(1) translate(0, 0);
-            }
-            50% {
-                transform: scale(1.1) translate(-2%, -2%);
-            }
-            100% {
-                transform: scale(3) translate(0, 0);
-            }
-        }
-
-        
-        @keyframes nebulaSpin {
-            0% {
-                transform: rotate(0deg) scale(1.2);
-            }
-            100% {
-                transform: rotate(720deg) scale(1.2);
-            }
-        }
-
-        
-        @keyframes cosmicPulse {
-            0%, 100% {
-                opacity: 0.6;
-                filter: brightness(1);
-            }
-            50% {
-                opacity: 0.8;
-                filter: brightness(1.2);
-            }
-        }
-
-        
-        @keyframes twinkle {
-            0%, 100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.2);
-            }
-        }
-
-        
-        @keyframes shootingStar {
-            0% {
-                transform: translateX(-100px) translateY(-100px);
+        @keyframes slideInDown {
+            from {
                 opacity: 0;
+                transform: translateY(-30px);
             }
-            10% {
+            to {
                 opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(1000px) translateY(1000px);
-                opacity: 0;
+                transform: translateY(0);
             }
         }
 
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-20px) translateX(10px);
-            }
-            50% {
-                transform: translateY(-40px) translateX(-10px);
-            }
-            75% {
-                transform: translateY(-20px) translateX(5px);
-            }
-        }
-
-        
-        
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -102,21 +28,10 @@
             }
         }
 
-        @keyframes fadeInLeft {
+        @keyframes scaleIn {
             from {
                 opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInScale {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
+                transform: scale(0.95);
             }
             to {
                 opacity: 1;
@@ -124,101 +39,585 @@
             }
         }
 
-        @keyframes fadeInGlow {
+        @keyframes shimmer {
             0% {
-                opacity: 0;
-                text-shadow: 0 0 0 rgba(0, 212, 255, 0);
-            }
-            50% {
-                text-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+                background-position: -1000px 0;
             }
             100% {
-                opacity: 1;
-                text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+                background-position: 1000px 0;
             }
         }
 
-        @keyframes letterFade {
-            from {
-                opacity: 0;
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
                 transform: translateY(-20px);
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
             }
+            50% {
+                box-shadow: 0 0 40px rgba(124, 58, 237, 0.6);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --bg-tertiary: #242d4a;
+            --text-light: #e8eef5;
+            --text-secondary: #a0aabe;
+            --accent-purple: #8b5cf6;
+            --accent-purple-light: #a78bfa;
+            --accent-pink: #ec4899;
+            --border-color: #2d3549;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.85);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            animation: slideInDown 0.5s ease-out;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink));
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-purple);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(139, 92, 246, 0.4);
+        }
+
+        .hero {
+            margin-top: 70px;
+            padding: 5rem 3rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a0d33 50%, #0f1a35 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite 4s;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-purple-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-purple);
+            border: 2px solid var(--accent-purple);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-purple);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.4);
+        }
+
+        #dimensions {
+            padding: 5rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .section-title {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-purple-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .section-title.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .dimension-card {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            cursor: pointer;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .dimension-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 25px 50px rgba(139, 92, 246, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .dimension-card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 1.8rem;
+        }
+
         .card-title {
-            animation: fadeInLeft 0.6s ease-out forwards;
+            font-size: 1.4rem;
+            color: var(--text-light);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
         }
 
-        
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .card-button {
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .card-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(139, 92, 246, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            padding: 2.5rem;
+            border-radius: 16px;
+            max-width: 650px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s ease;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
         .modal-title {
-            animation: fadeInGlow 0.8s ease-out forwards;
+            font-size: 1.8rem;
+            color: var(--text-light);
+            font-weight: 700;
         }
 
-        
-        .hero h1 {
-            animation: fadeInScale 1.2s ease-out 0.2s both;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-            color: var(--accent);
-            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        
-        .hero h1:hover {
-            transform: scale(1.05);
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.8),
-                         0 0 30px rgba(0, 212, 255, 0.6),
-                         2px 2px 8px rgba(0, 0, 0, 0.7);
+        .close-btn:hover {
+            color: var(--accent-purple);
+            background: var(--bg-dark);
+            border-radius: 50%;
         }
 
-        
-        .hero h1.letter-animation span {
-            display: inline-block;
-            opacity: 0;
-            animation: letterFade 0.4s ease-out forwards;
+        .modal-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
         }
 
-        .hero h1.letter-animation span:nth-child(1) { animation-delay: 0.1s; }
-        .hero h1.letter-animation span:nth-child(2) { animation-delay: 0.15s; }
-        .hero h1.letter-animation span:nth-child(3) { animation-delay: 0.2s; }
-        .hero h1.letter-animation span:nth-child(4) { animation-delay: 0.25s; }
-        .hero h1.letter-animation span:nth-child(5) { animation-delay: 0.3s; }
-        .hero h1.letter-animation span:nth-child(6) { animation-delay: 0.35s; }
-        .hero h1.letter-animation span:nth-child(7) { animation-delay: 0.4s; }
-        .hero h1.letter-animation span:nth-child(8) { animation-delay: 0.45s; }
-        .hero h1.letter-animation span:nth-child(9) { animation-delay: 0.5s; }
-        .hero h1.letter-animation span:nth-child(10) { animation-delay: 0.55s; }
-        .hero h1.letter-animation span:nth-child(11) { animation-delay: 0.6s; }
-        .hero h1.letter-animation span:nth-child(12) { animation-delay: 0.65s; }
-        .hero h1.letter-animation span:nth-child(13) { animation-delay: 0.7s; }
-        .hero h1.letter-animation span:nth-child(14) { animation-delay: 0.75s; }
-        .hero h1.letter-animation span:nth-child(15) { animation-delay: 0.8s; }
-        .hero h1.letter-animation span:nth-child(16) { animation-delay: 0.85s; }
-        .hero h1.letter-animation span:nth-child(17) { animation-delay: 0.9s; }
-        .hero h1.letter-animation span:nth-child(18) { animation-delay: 0.95s; }
-        .hero h1.letter-animation span:nth-child(19) { animation-delay: 1s; }
-        .hero h1.letter-animation span:nth-child(20) { animation-delay: 1.05s; }
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-body h3 {
+            color: var(--text-light);
+            margin-top: 1rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .modal-body p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            color: var(--text-light);
+            padding: 4rem 3rem;
+            margin-top: 5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .footer-info h3 {
+            color: var(--text-light);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .footer-info p {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .footer-form h3 {
+            color: var(--text-light);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .footer-form label {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-form textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.05);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        .footer-form textarea::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .footer-form button {
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .footer-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(139, 92, 246, 0.4);
+        }
+
+        .footer-bottom {
+            margin-top: 2.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--accent-purple);
+            stroke-width: 2;
+            fill: none;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-indicator:hover svg {
+            opacity: 1;
+        }
 
         .modal-fullscreen {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.92);
+            background: rgba(0, 0, 0, 0.95);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -250,7 +649,7 @@
 
         .modal-fullscreen .fs-caption {
             margin-top: 14px;
-            color: #dfefff;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1rem;
             opacity: 0.95;
             text-align: center;
@@ -258,814 +657,95 @@
             user-select: none;
         }
 
-        .modal .modal-image img {
-            cursor: zoom-in;
-        }
-
-        img {
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
-        }
-
-        img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scrollbar-color: var(--accent) var(--bg-primary);
-            scrollbar-width: thin;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(15, 15, 30, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 102, 204, 0.3);
-            border-bottom: 1px solid rgba(0, 102, 204, 0.2);
-            transition: background 0.3s ease;
-        }
-
-        body.light-mode header {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 102, 204, 0.1);
-            border-bottom: 1px solid rgba(0, 102, 204, 0.1);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        .audio-toggle {
-            background: linear-gradient(135deg, #030303 0%, #00d4ff 100%);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .audio-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(233, 236, 236, 0.3);
-        }
-
-        .theme-toggle {
-            background: linear-gradient(135deg, #030303 0%, #00d4ff 100%);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(233, 236, 236, 0.3);
-        }
-
-        :root {
-            --bg-primary: #0f0f1e;
-            --bg-secondary: #1a1a3e;
-            --bg-tertiary: #0f2847;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0c0;
-            --accent: #00d4ff;
-            --accent-dark: #0066cc;
-        }
-
-        body.light-mode {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
-            --bg-tertiary: #efefff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #4a4a5a;
-            --accent: #0066cc;
-            --accent-dark: #003d99;
-        }
-
-        .hero {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 60px;
-            overflow: hidden;
-        }
-
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -10%;
-            left: -10%;
-            right: -10%;
-            bottom: -10%;
-            background-image: url('https://science.nasa.gov/wp-content/uploads/2023/09/stsci-01ga76rm0c11w977jrhgj5j26x-2.png?w=1024');
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-            animation: universeZoom 40s ease-in-out infinite;
-            will-change: transform;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 20, 50, 0.8) 0%, rgba(0, 50, 120, 0.8) 100%);
-            z-index: 2;
-            animation: cosmicPulse 8s ease-in-out infinite;
-        }
-
-        
-        .stars-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-        }
-
-        .star.small {
-            width: 2px;
-            height: 2px;
-            animation: twinkle 3s ease-in-out infinite;
-        }
-
-        .star.medium {
-            width: 3px;
-            height: 3px;
-            animation: twinkle 4s ease-in-out infinite;
-        }
-
-        .star.large {
-            width: 4px;
-            height: 4px;
-            animation: twinkle 5s ease-in-out infinite;
-        }
-
-        
-        .shooting-star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
-            z-index: 2;
-            animation: shootingStar 3s linear infinite;
-        }
-
-        .shooting-star::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 80px;
-            height: 2px;
-            background: linear-gradient(90deg, white, transparent);
-            transform: translateX(-80px);
-        }
-
-        .shooting-star:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .shooting-star:nth-child(2) {
-            top: 40%;
-            left: 30%;
-            animation-delay: 4s;
-        }
-
-        .shooting-star:nth-child(3) {
-            top: 60%;
-            left: 50%;
-            animation-delay: 8s;
-        }
-
-        
-        .particle {
-            position: absolute;
-            background: rgba(0, 212, 255, 0.6);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .particle.small {
-            width: 4px;
-            height: 4px;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .particle.medium {
-            width: 6px;
-            height: 6px;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .particle.large {
-            width: 8px;
-            height: 8px;
-            animation: float 10s ease-in-out infinite;
-        }
-
-        
-        .nebula-overlay {
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
-            z-index: 1;
-            animation: nebulaSpin 120s linear infinite;
-            pointer-events: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 3;
-            text-align: center;
-            color: white;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out 0.4s both;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
-
-        .btn {
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: var(--bg-primary);
-            font-weight: bold;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--accent);
-            border: 2px solid var(--accent);
-        }
-
-        .btn-secondary:hover {
-            background: var(--accent);
-            color: var(--bg-primary);
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 4;
-            cursor: pointer;
-            animation: bounce 2s infinite;
-        }
-
-        .scroll-indicator svg {
-            width: 30px;
-            height: 30px;
-            stroke: #6b7fa6;
-            stroke-width: 2;
-            fill: none;
-            transition: stroke 0.3s ease;
-            opacity: 0.7;
-        }
-
-        .scroll-indicator:hover svg {
-            stroke: var(--accent);
-            opacity: 1;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
-        }
-
-        #dimensions {
-            padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--accent);
-        }
-
-        .dimensions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .dimension-card {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            animation: fadeIn 0.8s ease-out;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-        }
-
-        .dimension-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.3);
-            border-color: rgba(0, 212, 255, 0.5);
-        }
-
-        .card-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .dimension-card:hover .card-image img {
-            transform: scale(1.1);
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-
-        .card-description {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .card-button {
-            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .card-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: slideUp 0.3s ease;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .modal-title {
-            font-size: 2rem;
-            color: var(--accent);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-        }
-
-        .close-btn:hover {
-            color: var(--accent);
-        }
-
-        .modal-image {
-            width: 100%;
-            height: 300px;
-            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        .modal-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .modal-body h3 {
-            color: var(--accent);
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-body p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .audio-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            padding: 1rem;
-            border-radius: 50px;
-            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.2);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-        }
-
-        .player-control {
-            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .player-control:hover {
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-        }
-
-        .volume-control {
-            width: 80px;
-            accent-color: var(--accent);
-        }
-
-        footer {
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            color: var(--text-primary);
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            border-top: 1px solid rgba(0, 212, 255, 0.2);
-        }
-
-        footer p {
-            color: var(--text-secondary);
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        .footer-info {
-            text-align: left;
-        }
-
-        .footer-info h3 {
-            color: var(--accent);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .footer-info p {
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
-        }
-
-        .footer-form {
-            text-align: left;
-        }
-
-        .footer-form h3 {
-            color: var(--accent);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .footer-form label {
-            display: block;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .footer-form textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid rgba(0, 212, 255, 0.3);
-            border-radius: 8px;
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 0.9rem;
-            resize: vertical;
-            min-height: 120px;
-            transition: all 0.3s ease;
-        }
-
-        .footer-form textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
-        }
-
-        .footer-form textarea::placeholder {
-            color: var(--text-secondary);
-            opacity: 0.7;
-        }
-
-        .footer-form button {
-            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            font-weight: bold;
-        }
-
-        .footer-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
-        }
-
-        .footer-bottom {
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(0, 212, 255, 0.2);
-            text-align: center;
-        }
-
         @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding: 3rem 1.5rem;
+                margin-top: 70px;
+            }
+
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
             .hero p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
 
             .hero-buttons {
                 flex-direction: column;
             }
 
-            nav ul {
-                gap: 1rem;
-                font-size: 0.9rem;
+            .btn {
+                width: 100%;
+            }
+
+            #dimensions {
+                padding: 3rem 1.5rem;
             }
 
             .section-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
 
             .dimensions-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
             .footer-container {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
         }
 
         ::-webkit-scrollbar {
-            width: 12px;
+            width: 10px;
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
-            border-radius: 6px;
-            border: 2px solid var(--bg-primary);
-            transition: background 0.3s ease;
+            background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+            border-radius: 5px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-        }
-
-        
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+            box-shadow: 0 0 6px rgba(139, 92, 246, 0.5);
         }
     </style>
 </head>
+
 <body>
-    
     <header>
         <nav>
-            <div class="logo">🌌 World Dimensions</div>
+            <div class="logo">Dimensions</div>
             <ul>
                 <li><a href="#home">Home</a></li>
-                <li><a href="#dimensions">Dimensions</a></li>
+                <li><a href="#dimensions">Explore</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
-            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
-            <button class="audio-toggle" onclick="toggleAudio()">🔊 Music ON</button>
+            <button class="theme-toggle" onclick="toggleTheme()">Light Mode</button>
         </nav>
     </header>
 
-    
     <section class="hero" id="home">
-        
-        <div class="nebula-overlay"></div>
-        
-        
-        <div class="stars-container" id="starsContainer"></div>
-        
-        
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        
-        
-        <div class="stars-container" id="particlesContainer"></div>
-        
         <div class="hero-content">
-            <h1 id="heroTitle">Explore the Dimensions of Worlds</h1>
+            <h1>Explore the Dimensions of Worlds</h1>
             <p>Understand the geometry of reality from 1D to 5D and beyond</p>
             <div class="hero-buttons">
-                <button class="btn btn-primary" onclick="scrollToDimensions()">Explore Now</button>
-                <a href="save.html"><button class="btn btn-secondary">See a Simulation</button></a>
+                <button class="btn btn-primary" onclick="scrollToDimensions()">Start Exploring</button>
+                <button class="btn btn-secondary" onclick="window.location.href='#dimensions'">Learn More</button>
             </div>
         </div>
         <div class="scroll-indicator" onclick="scrollToDimensions()">
@@ -1075,13 +755,13 @@
         </div>
     </section>
 
-    
     <section id="dimensions">
         <h2 class="section-title">Dimensions Explained</h2>
+        <p class="section-subtitle">Dive into each dimension and understand how geometry shapes our universe</p>
         <div class="dimensions-grid">
             <div class="dimension-card" onclick="openModal('1d')">
                 <div class="card-image">
-                    <img src="images/1d-point.jpg">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='8' fill='%23ffffff'/%3E%3C/svg%3E" alt="1D Point">
                 </div>
                 <div class="card-content">
                     <div class="card-title">1D - Point</div>
@@ -1092,7 +772,7 @@
 
             <div class="dimension-card" onclick="openModal('1d-line')">
                 <div class="card-image">
-                    <img src="images/1d-line.jpg">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cline x1='20' y1='100' x2='180' y2='100' stroke='%23ffffff' stroke-width='3'/%3E%3C/svg%3E" alt="1D Line">
                 </div>
                 <div class="card-content">
                     <div class="card-title">1D - Line</div>
@@ -1103,7 +783,7 @@
 
             <div class="dimension-card" onclick="openModal('2d')">
                 <div class="card-image">
-                    <img src="images/2d-plane.jpg">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect x='40' y='40' width='120' height='120' fill='%23ffffff' opacity='0.5' stroke='%23ffffff' stroke-width='2'/%3E%3C/svg%3E" alt="2D Plane">
                 </div>
                 <div class="card-content">
                     <div class="card-title">2D - Plane</div>
@@ -1114,7 +794,7 @@
 
             <div class="dimension-card" onclick="openModal('3d')">
                 <div class="card-image">
-                    <img src="images/3d-space.jpg" >
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M60 60 L120 40 L140 100 L80 120 Z' fill='%23ffffff' opacity='0.6' stroke='%23ffffff' stroke-width='2'/%3E%3Cpath d='M80 120 L140 100 L140 160 L80 180 Z' fill='%23ffffff' opacity='0.4' stroke='%23ffffff' stroke-width='2'/%3E%3C/svg%3E" alt="3D Space">
                 </div>
                 <div class="card-content">
                     <div class="card-title">3D - Space</div>
@@ -1125,7 +805,7 @@
 
             <div class="dimension-card" onclick="openModal('4d')">
                 <div class="card-image">
-                    <img src="images/4d-spacetime.jpg">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='60' fill='none' stroke='%23ffffff' stroke-width='2' opacity='0.7'/%3E%3Ccircle cx='100' cy='100' r='50' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.5'/%3E%3Ccircle cx='100' cy='100' r='40' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E" alt="4D Space-Time">
                 </div>
                 <div class="card-content">
                     <div class="card-title">4D - Space-Time</div>
@@ -1136,7 +816,7 @@
 
             <div class="dimension-card" onclick="openModal('5d')">
                 <div class="card-image">
-                    <img src="images/5d-beyond.jpg">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg opacity='0.8'%3E%3Cline x1='100' y1='30' x2='150' y2='170' stroke='%23ffffff' stroke-width='1.5'/%3E%3Cline x1='100' y1='30' x2='50' y2='170' stroke='%23ffffff' stroke-width='1.5'/%3E%3Cline x1='50' y1='170' x2='150' y2='170' stroke='%23ffffff' stroke-width='1.5'/%3E%3Cline x1='75' y1='100' x2='125' y2='100' stroke='%23ffffff' stroke-width='1' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E" alt="5D and Beyond">
                 </div>
                 <div class="card-content">
                     <div class="card-title">5D+ - Beyond</div>
@@ -1147,7 +827,7 @@
         </div>
     </section>
 
-    
+    <!-- Modals -->
     <div id="1d-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1155,15 +835,13 @@
                 <button class="close-btn" onclick="closeModal('1d')">&times;</button>
             </div>
             <div class="modal-image">
-                <img src="images/1d-point.jpg">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='8' fill='%23ffffff'/%3E%3C/svg%3E" alt="1D Point">
             </div>
             <div class="modal-body">
                 <h3>What is a Point?</h3>
                 <p>A point is the most fundamental concept in geometry. It has no dimensions - no length, width, or height. It's simply a location in space marked by coordinates.</p>
-                
                 <h3>Key Properties</h3>
                 <p>• No size or area<br>• Only position matters<br>• Foundation of all geometric shapes</p>
-                
                 <h3>Real World Example</h3>
                 <p>A dot on paper, the tip of a needle, or the center of a circle are all practical representations of a point.</p>
             </div>
@@ -1177,15 +855,13 @@
                 <button class="close-btn" onclick="closeModal('1d-line')">&times;</button>
             </div>
             <div class="modal-image">
-                <img src="images/1d-line.jpg" >
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3 Cline x1='20' y1='100' x2='180' y2='100' stroke='%23ffffff' stroke-width='3'/%3E%3C/svg%3E" alt="1D Line">
             </div>
             <div class="modal-body">
                 <h3>What is a Line?</h3>
                 <p>A line is one-dimensional - it has length but no width. It extends infinitely in both directions and consists of infinitely many points.</p>
-                
                 <h3>Key Properties</h3>
                 <p>• Has only length<br>• Extends infinitely<br>• Made of infinite points<br>• Can only move in one direction</p>
-                
                 <h3>Real World Example</h3>
                 <p>The horizon line, a straight road stretching to infinity, or railroad tracks represent one-dimensional concepts.</p>
             </div>
@@ -1199,15 +875,13 @@
                 <button class="close-btn" onclick="closeModal('2d')">&times;</button>
             </div>
             <div class="modal-image">
-                <img src="images/2d-plane.jpg" >
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect x='40' y='40' width='120' height='120' fill='%23ffffff' opacity='0.5' stroke='%23ffffff' stroke-width='2'/%3E%3C/svg%3E" alt="2D Plane">
             </div>
             <div class="modal-body">
                 <h3>What is a Plane?</h3>
                 <p>A plane has two dimensions: length and width. It's a flat surface that extends infinitely in both directions with no depth.</p>
-                
                 <h3>Key Properties</h3>
                 <p>• Has length and width<br>• No depth or thickness<br>• Contains infinite lines<br>• Movement in two directions</p>
-                
                 <h3>Real World Example</h3>
                 <p>A sheet of paper, a painting, a map, or a computer screen all represent two-dimensional surfaces.</p>
             </div>
@@ -1221,15 +895,13 @@
                 <button class="close-btn" onclick="closeModal('3d')">&times;</button>
             </div>
             <div class="modal-image">
-                <img src="images/3d-space.jpg">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M60 60 L120 40 L140 100 L80 120 Z' fill='%23ffffff' opacity='0.6' stroke='%23ffffff' stroke-width='2'/%3E%3Cpath d='M80 120 L140 100 L140 160 L80 180 Z' fill='%23ffffff' opacity='0.4' stroke='%23ffffff' stroke-width='2'/%3E%3C/svg%3E" alt="3D Space">
             </div>
             <div class="modal-body">
                 <h3>What is Three-Dimensional Space?</h3>
                 <p>Three-dimensional space adds depth to length and width. This is our everyday physical reality - the space we move through with height, width, and depth.</p>
-                
                 <h3>Key Properties</h3>
                 <p>• Has length, width, and depth<br>• Contains infinite planes<br>• Movement in three directions<br>• Our observable reality</p>
-                
                 <h3>Real World Example</h3>
                 <p>Every object we see - buildings, trees, people, planets - exists in three dimensions. Our universe is fundamentally 3D plus time.</p>
             </div>
@@ -1243,15 +915,13 @@
                 <button class="close-btn" onclick="closeModal('4d')">&times;</button>
             </div>
             <div class="modal-image">
-                <img src="images/4d-spacetime.jpg" >
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='60' fill='none' stroke='%23ffffff' stroke-width='2' opacity='0.7'/%3E%3Ccircle cx='100' cy='100' r='50' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.5'/%3E%3Ccircle cx='100' cy='100' r='40' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E" alt="4D Space-Time">
             </div>
             <div class="modal-body">
                 <h3>What is Four-Dimensional Space-Time?</h3>
                 <p>The fourth dimension is time. Combined with 3D space, it creates space-time - the fabric of our universe where events occur and causality flows.</p>
-                
                 <h3>Key Properties</h3>
                 <p>• Combines 3D space with time<br>• Time flows in one direction<br>• Events have spacetime coordinates<br>• Relative to observer's position</p>
-                
                 <h3>Real World Example</h3>
                 <p>Einstein's relativity theory describes how space and time are interconnected. Events in our universe are defined by coordinates (x, y, z, t).</p>
             </div>
@@ -1265,45 +935,27 @@
                 <button class="close-btn" onclick="closeModal('5d')">&times;</button>
             </div>
             <div class="modal-image">
-                <img src="images/5d-beyond.jpg">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg opacity='0.8'%3E%3 Cline x1='100' y1='30' x2='150' y2='170' stroke='%23ffffff' stroke-width='1.5'/%3E%3Cline x1='100' y1='30' x2='50' y2='170' stroke='%23ffffff' stroke-width='1.5'/%3E%3Cline x1='50' y1='170' x2='150' y2='170' stroke='%23ffffff' stroke-width='1.5'/%3E%3Cline x1='75' y1='100' x2='125' y2='100' stroke='%23ffffff' stroke-width='1' opacity='0.5'/%3E%3C/g%3E%3C/svg%3E" alt="5D and Beyond">
             </div>
             <div class="modal-body">
                 <h3>What are Higher Dimensions?</h3>
                 <p>Beyond 4D space-time, theoretical physics explores additional dimensions. String theory proposes 10 or 11 dimensions to unify quantum mechanics and gravity.</p>
-                
                 <h3>Key Properties</h3>
                 <p>• Proposed by string theory<br>• Compactified at quantum scale<br>• Cannot be directly observed<br>• Mathematical constructs</p>
-                
                 <h3>Real World Example</h3>
                 <p>These dimensions are too small to detect directly but may explain the fundamental nature of reality, particle behavior, and the nature of forces.</p>
             </div>
         </div>
     </div>
 
-    
-    <div class="audio-player">
-        <button class="player-control" onclick="toggleAudioPlayer()" id="play-btn">▶</button>
-        <input type="range" min="0" max="100" value="70" class="volume-control" id="volume-slider" onchange="setVolume()">
-    </div>
-
-   
-    <audio id="background-audio" loop>
-        <source src="evil-cue-111895.mp3" type="audio/mpeg">
-    </audio>
-
-    
     <footer id="about">
         <div class="footer-container">
             <div class="footer-info">
                 <h3>About Authors</h3>
                 <p>&copy; 2025 World Dimensions. Exploring the geometry of reality.</p>
-                <p>Inspired by mathematics, physics, and the wonders of the universe.
-                   This competition is very beneficial for our coding growth and we are proud and excited to show our websites to everyone<br>
-                   <p> Contact:-9205663747,79832567962
-                                 
-                   </p>
-                   <p> Email Id - anshu.arora@dpsrudrapur.com</p>
-                </p>
+                <p>Inspired by mathematics, physics, and the wonders of the universe. This competition is very beneficial for our coding growth and we are proud and excited to show our websites to everyone.</p>
+                <p>Contact: 9205663747, 79832567962</p>
+                <p>Email: anshu.arora@dpsrudrapur.com</p>
             </div>
             <div class="footer-form">
                 <h3>Share Your Thoughts</h3>
@@ -1317,110 +969,12 @@
         </div>
     </footer>
 
+    <div class="modal-fullscreen" id="modalFullscreen" aria-hidden="true">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3C/svg%3E" alt="Zoomed modal image" id="modalFullscreenImg">
+        <div class="fs-caption" id="modalFullscreenCaption"></div>
+    </div>
+
     <script>
-        
-        
-        
-        
-        
-        function createStars() {
-            const starsContainer = document.getElementById('starsContainer');
-            const starCount = 150;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                
-                
-                const sizes = ['small', 'medium', 'large'];
-                star.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
-                
-                
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                
-                
-                star.style.animationDelay = Math.random() * 5 + 's';
-                
-                starsContainer.appendChild(star);
-            }
-        }
-
-        
-        function createParticles() {
-            const particlesContainer = document.getElementById('particlesContainer');
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                
-                const sizes = ['small', 'medium', 'large'];
-                particle.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
-                
-                
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                
-                
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
-
-        
-        
-        
-        
-        function animateHeroTitle() {
-            const title = document.getElementById('heroTitle');
-            const text = title.textContent;
-            title.textContent = '';
-            title.classList.add('letter-animation');
-            
-            for (let i = 0; i < text.length; i++) {
-                const span = document.createElement('span');
-                span.textContent = text[i];
-                if (text[i] === ' ') {
-                    span.innerHTML = '&nbsp;';
-                }
-                title.appendChild(span);
-            }
-        }
-
-        
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const titleObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-              
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            createStars();
-            createParticles();
-            
-            
-            const sectionTitles = document.querySelectorAll('.section-title');
-            sectionTitles.forEach(title => {
-                titleObserver.observe(title);
-            });
-
-            
-        });
-
-        
         function openModal(dimensionId) {
             const modal = document.getElementById(dimensionId + '-modal');
             if (modal) {
@@ -1435,66 +989,29 @@
             }
         }
 
-        
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.classList.remove('active');
             }
-        }
+        };
 
-        
         function scrollToDimensions() {
-            document.getElementById('dimensions').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('dimensions').scrollIntoView({
+                behavior: 'smooth'
+            });
         }
 
-        
-        const audio = document.getElementById('background-audio');
-        let isPlaying = false;
-
-        function toggleAudio() {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                document.querySelector('.audio-toggle').textContent = '🔇 Music OFF';
-            } else {
-                audio.play().catch(e => console.log('Autoplay prevented:', e));
-                isPlaying = true;
-                document.querySelector('.audio-toggle').textContent = '🔊 Music ON';
-            }
-        }
-
-        function toggleAudioPlayer() {
-            const btn = document.getElementById('play-btn');
-            if (isPlaying) {
-                audio.pause();
-                btn.textContent = '▶';
-                isPlaying = false;
-                document.querySelector('.audio-toggle').textContent = '🔇 Music OFF';
-            } else {
-                audio.play().catch(e => console.log('Playback prevented:', e));
-                btn.textContent = '⏸';
-                isPlaying = true;
-                document.querySelector('.audio-toggle').textContent = '🔊 Music ON';
-            }
-        }
-
-        function setVolume() {
-            const volume = document.getElementById('volume-slider').value;
-            audio.volume = volume / 100;
-        }
-
-        
         function toggleTheme() {
             const body = document.body;
             const themeBtn = document.querySelector('.theme-toggle');
-            
+
             if (body.classList.contains('light-mode')) {
                 body.classList.remove('light-mode');
-                themeBtn.textContent = '🌙 Dark';
+                themeBtn.textContent = 'Light Mode';
                 localStorage.setItem('theme', 'dark');
             } else {
                 body.classList.add('light-mode');
-                themeBtn.textContent = '☀️ Light';
+                themeBtn.textContent = 'Dark Mode';
                 localStorage.setItem('theme', 'light');
             }
         }
@@ -1503,49 +1020,36 @@
             const savedTheme = localStorage.getItem('theme') || 'dark';
             const body = document.body;
             const themeBtn = document.querySelector('.theme-toggle');
-            
+
             if (savedTheme === 'light') {
                 body.classList.add('light-mode');
-                themeBtn.textContent = '☀️ Light';
+                themeBtn.textContent = 'Dark Mode';
             } else {
-                themeBtn.textContent = '🌙 Dark';
+                themeBtn.textContent = 'Light Mode';
             }
-        });
-
-        window.addEventListener('load', function() {
-            audio.play().then(() => {
-                isPlaying = true;
-                document.querySelector('.audio-toggle').textContent = '🔊 Music ON';
-                document.getElementById('play-btn').textContent = '⏸';
-            }).catch(e => {
-                console.log('Autoplay prevented:', e);
-            });
         });
 
         function submitFeedback() {
             const textarea = document.getElementById('feedback');
             const feedback = textarea.value.trim();
-            
+
             if (feedback.length === 0) {
                 alert('Please write something before submitting!');
                 return;
             }
-            
-            
+
             const allFeedback = JSON.parse(localStorage.getItem('worldDimensionsFeedback') || '[]');
             allFeedback.push({
                 message: feedback,
                 timestamp: new Date().toLocaleString()
             });
             localStorage.setItem('worldDimensionsFeedback', JSON.stringify(allFeedback));
-            
-            
+
             textarea.value = '';
             alert('Thank you! Your feedback has been saved.');
         }
 
-        
-        (function () {
+        (function() {
             const fullscreenOverlay = document.getElementById('modalFullscreen');
             const fullscreenImg = document.getElementById('modalFullscreenImg');
             const fullscreenCaption = document.getElementById('modalFullscreenCaption');
@@ -1554,14 +1058,14 @@
                 if (img.hasAttribute('data-fs-bound')) return;
                 img.setAttribute('data-fs-bound', '1');
 
-                img.addEventListener('click', function (e) {
+                img.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const src = img.src || '';
-                    if (!src || src.includes('data:') || !src) return;
+                    if (!src || src.includes('data:')) return;
 
                     fullscreenImg.src = src;
                     const modal = img.closest('.modal');
-                    const title = modal?.querySelector('.modal-title')?.textContent?.trim() || '';
+                    const title = modal ? modal.querySelector('.modal-title') ? modal.querySelector('.modal-title').textContent.trim() : '' : '';
                     fullscreenCaption.textContent = title;
 
                     fullscreenOverlay.classList.add('active');
@@ -1572,31 +1076,23 @@
 
             fullscreenOverlay.addEventListener('click', () => {
                 fullscreenOverlay.classList.remove('active');
-                setTimeout(() => { fullscreenImg.src = ''; }, 300);
+                setTimeout(() => {
+                    fullscreenImg.src = '';
+                }, 300);
             });
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && fullscreenOverlay.classList.contains('active')) {
                     fullscreenOverlay.classList.remove('active');
-                    setTimeout(() => { fullscreenImg.src = ''; }, 300);
+                    setTimeout(() => {
+                        fullscreenImg.src = '';
+                    }, 300);
                 }
             });
 
             fullscreenImg.addEventListener('click', (e) => e.stopPropagation());
         })();
     </script>
-
-    <div class="modal-fullscreen" id="modalFullscreen" aria-hidden="true">
-        <img src="" alt="Zoomed modal image" id="modalFullscreenImg">
-        <div class="fs-caption" id="modalFullscreenCaption"></div>
-    </div>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
