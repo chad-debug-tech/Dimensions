@@ -1,10 +1,3 @@
-<!-- 
- CTRL + ALT + DESIGN Simulation part
-    By Atharv(github : @iblameatharv) and Poornav (github : chad-debug-tech)
-    On date : 2-11-2025
-    Copyright : OpenSource :p
- -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimension Simulation</title>
     <style>
-        /*css code- pls don't you link method or seperate the css code from html cause  does'nt work*/
-        
         * {
             margin: 0;
             padding: 0;
@@ -31,7 +22,6 @@
             --dark-bg: #0a0a0f;
             --crt-glow: rgba(0, 255, 65, 0.3);
         }
-        /*Poornav Bhai Thanks for Font idea.*/
         
         @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=VT323&family=Share+Tech+Mono&display=swap");
         body {
@@ -74,8 +64,8 @@
         }
         
         .loader {
-            width: 300px;
-            height: 300px;
+            width: clamp(200px, 40vw, 300px);
+            height: clamp(200px, 40vw, 300px);
             position: relative;
             display: flex;
             justify-content: center;
@@ -133,16 +123,14 @@
         }
         
         .loading-text {
-            margin-top: 40px;
-            font-size: 24px;
+            margin-top: clamp(20px, 5vw, 40px);
+            font-size: clamp(14px, 4vw, 24px);
             color: var(--neon-blue);
             text-transform: uppercase;
             letter-spacing: 4px;
             animation: pulse 1.5s ease-in-out infinite;
             text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-purple);
         }
-        /*atharv : above code was for loading.. some how loading screen still sucks!!*/
-        /*NOTE : i disown ts code chat*/
         
         @keyframes pulse {
             0%,
@@ -275,7 +263,6 @@
                 opacity: 0.24387;
             }
         }
-        /*lets not do ts agaaaainnnn pls*/
         
         #ui-container {
             position: fixed;
@@ -289,20 +276,22 @@
         
         .info-bar {
             position: absolute;
-            top: 20px;
+            top: clamp(10px, 2vw, 20px);
             left: 50%;
             transform: translateX(-50%);
             background: transparent;
             border: none;
-            padding: 15px 40px;
+            padding: clamp(10px, 2vw, 15px) clamp(20px, 4vw, 40px);
             border-radius: 50px;
             pointer-events: auto;
             box-shadow: none;
             backdrop-filter: none;
+            width: 90%;
+            text-align: center;
         }
         
         .dimension-label {
-            font-size: 28px;
+            font-size: clamp(18px, 6vw, 28px);
             font-weight: 900;
             text-align: center;
             color: var(--neon-blue);
@@ -310,6 +299,7 @@
             letter-spacing: 3px;
             text-shadow: 0 0 20px var(--neon-blue);
             animation: labelFadeIn 0.8s ease-out, labelGlow 2s ease-in-out infinite;
+            word-break: break-word;
         }
         
         @keyframes labelFadeIn {
@@ -332,10 +322,9 @@
                 text-shadow: 0 0 40px var(--neon-blue), 0 0 60px var(--neon-pink);
             }
         }
-        /*funn partttt lol*/
         
         .dimension-description {
-            font-size: 14px;
+            font-size: clamp(10px, 3vw, 14px);
             color: #aaa;
             text-align: center;
             margin-top: 5px;
@@ -375,22 +364,21 @@
                 width: 100%;
             }
         }
-        /* Info panel styling - removed box, added text animation - goodnight kal karunga code aab */
         
         .info-panel {
             position: absolute;
-            bottom: 120px;
+            bottom: clamp(80px, 15vw, 120px);
             left: 50%;
             transform: translateX(-50%);
-            background: transparent;
-            border: none;
-            padding: 20px 30px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            padding: clamp(15px, 3vw, 20px) clamp(20px, 4vw, 30px);
             border-radius: 15px;
-            max-width: 600px;
+            max-width: 90%;
             pointer-events: auto;
             opacity: 0;
             transition: opacity 0.5s ease;
-            backdrop-filter: none;
+            backdrop-filter: blur(10px);
         }
         
         .info-panel.visible {
@@ -401,19 +389,19 @@
         @keyframes infoPanelPulse {
             0% {
                 opacity: 0;
-                transform: scale(0.95);
+                transform: translateX(-50%) scale(0.95);
             }
             100% {
                 opacity: 1;
-                transform: scale(1);
+                transform: translateX(-50%) scale(1);
             }
         }
         
         .info-panel h3 {
             color: var(--neon-blue);
             margin-bottom: 10px;
-            font-size: 18px;
-            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-pink);
+            font-size: clamp(14px, 4vw, 18px);
+            text-shadow: 0 0 10px var(--neon-blue);
             animation: h3FadeIn 0.8s ease-out;
         }
         
@@ -430,7 +418,7 @@
         
         .info-panel p {
             color: #ddd;
-            font-size: 14px;
+            font-size: clamp(12px, 3vw, 14px);
             line-height: 1.7;
             font-family: "Share Tech Mono", monospace;
             letter-spacing: 0.5px;
@@ -451,21 +439,24 @@
         
         .nav-controls {
             position: absolute;
-            bottom: 40px;
+            bottom: clamp(20px, 5vw, 40px);
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 20px;
+            gap: clamp(10px, 3vw, 20px);
             pointer-events: auto;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 90%;
         }
         
         .nav-arrow {
-            width: 60px;
-            height: 60px;
+            width: clamp(40px, 12vw, 60px);
+            height: clamp(40px, 12vw, 60px);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: clamp(24px, 8vw, 40px);
             border: 2px solid var(--neon-blue);
             border-radius: 50%;
             cursor: pointer;
@@ -476,6 +467,7 @@
             user-select: none;
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
         
         .nav-arrow::before {
@@ -490,7 +482,6 @@
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
         }
-        /*FAT FREAKING BLOB*/
         
         .nav-arrow:hover::before {
             width: 200px;
@@ -521,19 +512,21 @@
         
         .keyboard-hint {
             position: absolute;
-            bottom: 10px;
+            bottom: clamp(5px, 1vw, 10px);
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
+            font-size: clamp(10px, 2vw, 12px);
             color: #666;
             font-family: "Share Tech Mono", monospace;
             letter-spacing: 1px;
+            text-align: center;
+            width: 90%;
         }
         
         .progress-container {
             position: absolute;
             top: 50%;
-            right: 30px;
+            right: clamp(15px, 3vw, 30px);
             transform: translateY(-50%);
             pointer-events: auto;
         }
@@ -541,12 +534,12 @@
         .progress-dots {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: clamp(12px, 2vw, 20px);
         }
         
         .progress-dot {
-            width: 20px;
-            height: 20px;
+            width: clamp(14px, 3vw, 20px);
+            height: clamp(14px, 3vw, 20px);
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.3);
             position: relative;
@@ -557,10 +550,10 @@
         .progress-dot::after {
             content: attr(data-dimension);
             position: absolute;
-            right: 35px;
+            right: clamp(25px, 5vw, 35px);
             top: 50%;
             transform: translateY(-50%);
-            font-size: 12px;
+            font-size: clamp(10px, 2vw, 12px);
             white-space: nowrap;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -589,41 +582,6 @@
             box-shadow: 0 0 15px var(--retro-green);
         }
         
-        .info-panel {
-            position: absolute;
-            bottom: 120px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.95);
-            border: 2px solid rgba(0, 212, 255, 0.5);
-            padding: 20px 30px;
-            border-radius: 15px;
-            max-width: 600px;
-            pointer-events: auto;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .info-panel.visible {
-            opacity: 1;
-        }
-        
-        .info-panel h3 {
-            color: var(--neon-blue);
-            margin-bottom: 10px;
-            font-size: 18px;
-            text-shadow: 0 0 10px var(--neon-blue);
-        }
-        
-        .info-panel p {
-            color: #ddd;
-            font-size: 14px;
-            line-height: 1.7;
-            font-family: "Share Tech Mono", monospace;
-            letter-spacing: 0.5px;
-        }
-        
         #start-screen {
             position: fixed;
             top: 0;
@@ -637,6 +595,7 @@
             align-items: center;
             z-index: 9999;
             transition: opacity 1s ease;
+            padding: 20px;
         }
         
         #start-screen.hidden {
@@ -646,22 +605,24 @@
         
         .title-container {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: clamp(30px, 8vw, 50px);
+            width: 100%;
         }
         
         .main-title {
-            font-size: 72px;
+            font-size: clamp(36px, 12vw, 72px);
             font-weight: 900;
             background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink), var(--neon-purple), var(--neon-blue));
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             animation: gradient-shift 3s linear infinite;
             text-shadow: 0 0 80px rgba(0, 212, 255, 0.5);
-            margin-bottom: 20px;
-            letter-spacing: 5px;
+            margin-bottom: clamp(10px, 3vw, 20px);
+            letter-spacing: clamp(2px, 1vw, 5px);
+            word-break: break-word;
         }
-        /*idk how abv code works but it works soo who cares :3*/
         
         @keyframes gradient-shift {
             to {
@@ -670,16 +631,17 @@
         }
         
         .subtitle {
-            font-size: 20px;
+            font-size: clamp(12px, 3vw, 20px);
             color: #888;
-            letter-spacing: 8px;
+            letter-spacing: clamp(4px, 1vw, 8px);
             text-transform: uppercase;
             font-weight: 400;
+            word-break: break-word;
         }
         
         .start-button {
-            padding: 25px 60px;
-            font-size: 28px;
+            padding: clamp(15px, 3vw, 25px) clamp(30px, 6vw, 60px);
+            font-size: clamp(16px, 4vw, 28px);
             background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
             border: none;
             color: white;
@@ -715,17 +677,22 @@
             box-shadow: 0 15px 60px rgba(0, 212, 255, 0.8);
         }
         
+        .start-button:active {
+            transform: scale(0.98);
+        }
+        
         .start-button span {
             position: relative;
             z-index: 1;
         }
         
         .instructions {
-            margin-top: 60px;
+            margin-top: clamp(30px, 8vw, 60px);
             text-align: center;
             color: #666;
-            font-size: 14px;
+            font-size: clamp(10px, 2vw, 14px);
             font-family: "Share Tech Mono", monospace;
+            width: 100%;
         }
         
         .instructions p {
@@ -739,10 +706,10 @@
             transform: translate(-50%, -50%);
             background: rgba(255, 0, 0, 0.1);
             border: 3px solid var(--retro-red);
-            padding: 30px 50px;
+            padding: clamp(20px, 4vw, 30px) clamp(30px, 6vw, 50px);
             border-radius: 10px;
             font-family: "VT323", monospace;
-            font-size: 24px;
+            font-size: clamp(16px, 3vw, 24px);
             color: var(--retro-red);
             text-align: center;
             z-index: 1000;
@@ -752,11 +719,8 @@
             pointer-events: none;
             max-width: 80%;
         }
-        /*atharv bhai ye error message ka code hai, isme maine thoda glow effect dala hai red color ka, taki error zyada noticeable lage.*/
-        /*chad-debug-tech : maine isme pointer-events none dala hai taki error message ke time pe user kuch click na kar paye background me*/
-        /*Waow yrr purnav bhai thenks*/
         
-        chad-debug-tech .error-message.visible {
+        .error-message.visible {
             opacity: 1;
         }
         
@@ -771,10 +735,10 @@
         
         #joystick-container {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 120px;
-            height: 120px;
+            bottom: clamp(15px, 3vw, 30px);
+            right: clamp(15px, 3vw, 30px);
+            width: clamp(80px, 20vw, 120px);
+            height: clamp(80px, 20vw, 120px);
             background: rgba(0, 212, 255, 0.1);
             border: 2px solid var(--neon-blue);
             border-radius: 50%;
@@ -791,8 +755,8 @@
         }
         
         .joystick-inner {
-            width: 50px;
-            height: 50px;
+            width: 35%;
+            height: 35%;
             background: var(--neon-blue);
             border-radius: 50%;
             position: absolute;
@@ -806,14 +770,89 @@
         
         .control-hint {
             position: absolute;
-            bottom: 20px;
+            bottom: clamp(10px, 2vw, 20px);
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
+            font-size: clamp(10px, 2vw, 12px);
             color: #666;
             font-family: "Share Tech Mono", monospace;
             letter-spacing: 1px;
             white-space: nowrap;
+            text-align: center;
+            width: 90%;
+        }
+        /* Mobile and tablet responsive adjustments */
+        
+        @media (max-width: 768px) {
+            .progress-container {
+                position: absolute;
+                top: auto;
+                bottom: clamp(150px, 30vw, 200px);
+                right: clamp(10px, 2vw, 20px);
+                transform: none;
+            }
+            .progress-dots {
+                flex-direction: row;
+                gap: clamp(8px, 1vw, 15px);
+            }
+            .progress-dot::after {
+                position: absolute;
+                right: auto;
+                bottom: clamp(25px, 5vw, 35px);
+                top: auto;
+                transform: translateX(0);
+                opacity: 0 !important;
+            }
+            .nav-controls {
+                bottom: clamp(10px, 3vw, 20px);
+            }
+            .info-panel {
+                bottom: clamp(60px, 12vw, 100px);
+                max-width: 85%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .progress-container {
+                display: none;
+            }
+            .info-bar {
+                top: clamp(5px, 1vw, 15px);
+                padding: clamp(8px, 1.5vw, 12px) clamp(15px, 2vw, 25px);
+            }
+            .dimension-label {
+                font-size: clamp(14px, 5vw, 20px);
+            }
+            .nav-controls {
+                gap: clamp(8px, 2vw, 12px);
+                bottom: clamp(8px, 2vw, 15px);
+                width: 95%;
+            }
+            .keyboard-hint {
+                display: none;
+            }
+            .info-panel {
+                bottom: clamp(50px, 10vw, 80px);
+                max-width: 90%;
+                padding: clamp(12px, 2vw, 15px) clamp(15px, 3vw, 20px);
+            }
+            .info-panel h3 {
+                font-size: clamp(12px, 3.5vw, 16px);
+                margin-bottom: 8px;
+            }
+            .info-panel p {
+                font-size: clamp(11px, 2.5vw, 13px);
+            }
+        }
+        
+        @media (max-height: 600px) {
+            .info-panel {
+                bottom: clamp(60px, 12vw, 100px);
+                max-width: 85%;
+            }
+            .nav-controls {
+                bottom: clamp(8px, 2vw, 15px);
+            }
         }
     </style>
 </head>
@@ -855,15 +894,15 @@
         <div class="nav-controls"></div>
         <div class="progress-container">
             <div class="progress-dots" id="progress-dots">
-                <div class="progress-dot active" data-dimension="1D - Point" data-index="0"></div>
-                <div class="progress-dot" data-dimension="2D - Flatland" data-index="1"></div>
-                <div class="progress-dot" data-dimension="3D - Reality" data-index="2"></div>
-                <div class="progress-dot" data-dimension="4D - Tesseract" data-index="3"></div>
-                <div class="progress-dot" data-dimension="5D - Penteract" data-index="4"></div>
+                <div class="progress-dot active" data-dimension="1D" data-index="0"></div>
+                <div class="progress-dot" data-dimension="2D" data-index="1"></div>
+                <div class="progress-dot" data-dimension="3D" data-index="2"></div>
+                <div class="progress-dot" data-dimension="4D" data-index="3"></div>
+                <div class="progress-dot" data-dimension="5D" data-index="4"></div>
             </div>
         </div>
         <div class="info-panel" id="info-panel">
-            <h3>📍 Understanding Dimensions</h3>
+            <h3>Understanding Dimensions</h3>
             <p>Click Next to explore how dimensions build upon each other, from the simplest point to the incomprehensible fifth dimension.</p>
         </div>
     </div>
@@ -878,6 +917,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="app.js"></script>
 </body>
-<!-- HTML MEIN TOH MAIN MASTER HUN :p -->
 
 </html>
